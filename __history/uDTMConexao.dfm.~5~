@@ -1,0 +1,14 @@
+object dtmPrincipal: TdtmPrincipal
+  OldCreateOrder = False
+  Height = 287
+  Width = 617
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Database=C:\DB\VENDAS.GDB'
+      'DriverID=IB')
+    Left = 32
+    Top = 16
+  end
+end
