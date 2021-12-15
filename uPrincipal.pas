@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uDTMConexao;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uDTMConexao, Enter;
 
 type
   TfrmPrincipal = class(TForm)
@@ -27,8 +27,10 @@ type
     procedure menuFecharClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Categoria1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
+    TeclaEnter: TMREnter;
   public
     { Public declarations }
   end;
@@ -50,16 +52,14 @@ begin
       frmCadCategoria.Release;
 end;
 
-procedure TfrmPrincipal.FormCreate(Sender: TObject);
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-{
-   dtmPrincipal := TdtmPrincipal.Create(Self);
-   dtmPrincipal.ConexaoDB.Connected:=True;
-   dtmPrincipal.ConexaoDB.Params.Database:='C:\DB\VENDAS.GDB';
-   dtmPrincipal.ConexaoDB.Params.Password:='masterkey';
-   dtmPrincipal.ConexaoDB.Params.UserName:='sysdba';
-   dtmPrincipal.ConexaoDB.Params.DriverID:='IB';
-}
+    FreeAndNil(TeclaEnter);
+    FreeAndNil(dtmPrincipal);
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject); //OnCreate
+begin
    dtmPrincipal := TdtmPrincipal.Create(Self);
    with dtmPrincipal.ConexaoDB do begin
      Connected:=True;
@@ -68,6 +68,10 @@ begin
      Params.UserName:='sysdba';
      Params.DriverID:='IB';
    end;
+
+   TeclaEnter := TMREnter.Create(Self);
+   TeclaEnter.FocusEnabled:=true;
+   TeclaEnter.FocusColor:=clInfoBk;
 end;
 
 procedure TfrmPrincipal.menuFecharClick(Sender: TObject);
